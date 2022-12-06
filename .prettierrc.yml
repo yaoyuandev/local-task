@@ -1,0 +1,12 @@
+# Prettier configuration
+overrides:
+  - files:
+      - "*.java"
+    options:
+      tabWidth: 4
+      useTabs: false
+  - files:
+      - "*.xml"
+    options:
+      xmlWhitespaceSensitivity: ignore
+      tabWidth: 4

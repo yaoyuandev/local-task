@@ -1,0 +1,35 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>pid</th>
+        <th>cmd</th>
+        <th>output</th>
+        <th>status</th>
+        <th>time</th>
+        <th>createdAt</th>
+        <th>updatedAt</th>
+        <th>delete</th>
+        <th>retry</th>
+        <th>kill</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#tasks}}
+    <tr>
+        <td>{{id}}</td>
+        <td>{{pid}}</td>
+        <td>{{cmd}}</td>
+        <td>
+            <a href="/logs?file={{output}}" target="_blank">{{output}}</a>
+        </td>
+        <td>{{status}}</td>
+        <td>{{time}}</td>
+        <td>{{createdAt}}</td>
+        <td>{{updatedAt}}</td>
+        <td><button hx-delete="/tasks/{{id}}" hx-target="#list" type="button" class="btn btn-danger">delete</button></td>
+        <td><button hx-post="/tasks/{{id}}/retry" hx-target="#list" type="button" class="btn btn-primary">retry</button></td>
+        <td><button hx-post="/tasks/{{id}}/kill" hx-target="#list" type="button" class="btn btn-warning">kill</button></td>
+    </tr>
+    {{/tasks}}
+</table>

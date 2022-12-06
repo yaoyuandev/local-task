@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: local-task
+  datasource:
+    url: jdbc:h2:file:./data
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+  task:
+    scheduling:
+      pool:
+        size: 2
+logging:
+  file:
+    name: simple-task.log
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
