@@ -21,7 +21,9 @@
         <td>{{id}}</td>
         <td>{{name}}</td>
         <td>{{pid}}</td>
-        <td><code>{{cmd}}</code></td>
+        <td>
+            <code id="task_{{id}}">{{cmd}}</code>
+            <button class="btn" data-clipboard-target="#task_{{id}}"><i class="bi bi-clipboard"></i></button></td>
         <td>
             <a href="/logs?file={{output}}" target="_blank">{{output}}</a>
         </td>
