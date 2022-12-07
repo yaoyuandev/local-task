@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th>#</th>
+        <th>name</th>
         <th>pid</th>
         <th>cmd</th>
         <th>output</th>
@@ -18,8 +19,9 @@
     {{#tasks}}
     <tr>
         <td>{{id}}</td>
+        <td>{{name}}</td>
         <td>{{pid}}</td>
-        <td>{{cmd}}</td>
+        <td><code>{{cmd}}</code></td>
         <td>
             <a href="/logs?file={{output}}" target="_blank">{{output}}</a>
         </td>

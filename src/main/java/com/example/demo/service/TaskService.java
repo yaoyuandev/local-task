@@ -16,7 +16,7 @@ public record TaskService(TaskRepository repository) {
     }
 
     public Tasks tasks() {
-        return new Tasks(repository.findAll());
+        return new Tasks(repository.findByOrderByIdDesc());
     }
 
     public Optional<Task> findTodo() {
@@ -41,7 +41,10 @@ public record TaskService(TaskRepository repository) {
             task.setStatus(Task.FAILED);
         }
         update(task);
-        val createTaskRequest = new CreateTaskRequest(task.getCmd());
+        val createTaskRequest = new CreateTaskRequest(
+            task.getName(),
+            task.getCmd()
+        );
         create(createTaskRequest);
     }
 

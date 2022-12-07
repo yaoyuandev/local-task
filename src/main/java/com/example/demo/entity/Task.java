@@ -31,13 +31,18 @@ public class Task {
     public static final String FAILED = "failed";
     public static final String KILLED = "killed";
 
+    static final int CMD_LEN = 10000;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
 
+    String name;
+
     String pid;
 
+    @Column(length = CMD_LEN)
     String cmd;
 
     String output;

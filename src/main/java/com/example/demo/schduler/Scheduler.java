@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -31,7 +32,7 @@ public class Scheduler {
             val task = taskOp.get();
             task.setStatus(Task.RUNNING);
             service.update(task);
-            val path = "logs/" + task.getId() + ".log";
+            val path = "logs/" + task.getId() + "-" + task.getName() + ".log";
             val outputFile = new File(path);
             if (!outputFile.getParentFile().isDirectory()) {
                 val ok = outputFile.getParentFile().mkdirs();
@@ -41,10 +42,11 @@ public class Scheduler {
                 val future = p.onExit();
                 task.setPid("" + p.pid());
                 service.update(task);
+                val start = LocalDateTime.now();
                 p = future.get();
                 task.setPid("");
-                val durationOp = p.info().totalCpuDuration();
-                task.setTime(durationOp.orElse(Duration.ZERO));
+                val end = LocalDateTime.now();
+                task.setTime(Duration.between(start, end));
                 if (p.exitValue() == 0) {
                     FileCopyUtils.copy(p.getInputStream(), outputStream);
                     task.setStatus(Task.COMPLETED);
