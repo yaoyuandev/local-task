@@ -9,4 +9,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Optional<Task> findFirstByStatus(String status);
 
     List<Task> findByOrderByIdDesc();
+
+    boolean existsByStatus(String status);
 }

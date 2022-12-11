@@ -31,6 +31,14 @@ public class Task {
     public static final String FAILED = "failed";
     public static final String KILLED = "killed";
 
+    public static final String BASH = "bash";
+
+    public static final String IPYTHON = "ipython";
+
+    public static final String PYTHON = "python";
+
+    public static final String ZX = "zx";
+
     static final int CMD_LEN = 10000;
 
     @Id
@@ -41,6 +49,8 @@ public class Task {
     String name;
 
     String pid;
+
+    String interpreter;
 
     @Column(length = CMD_LEN)
     String cmd;
@@ -58,4 +68,12 @@ public class Task {
     LocalDateTime updatedAt;
 
     Duration time;
+
+    public boolean isBash() {
+        return BASH.equals(interpreter);
+    }
+
+    public boolean isIpython() {
+        return IPYTHON.equals(interpreter);
+    }
 }

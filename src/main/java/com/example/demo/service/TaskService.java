@@ -23,6 +23,10 @@ public record TaskService(TaskRepository repository) {
         return repository.findFirstByStatus(Task.CREATED);
     }
 
+    public boolean existsTodo() {
+        return repository.existsByStatus(Task.CREATED);
+    }
+
     public void update(Task task) {
         repository.save(task);
     }
@@ -43,6 +47,7 @@ public record TaskService(TaskRepository repository) {
         update(task);
         val createTaskRequest = new CreateTaskRequest(
             task.getName(),
+            task.getInterpreter(),
             task.getCmd()
         );
         create(createTaskRequest);
