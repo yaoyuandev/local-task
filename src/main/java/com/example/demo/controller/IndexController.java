@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @Slf4j
 public record IndexController(TaskService service) {
+    @GetMapping("")
+    String index() {
+        return "index";
+    }
     @PostMapping("/run")
     String run(@ModelAttribute CreateTaskRequest task, Model model) {
         service.create(task);
