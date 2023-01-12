@@ -33,11 +33,13 @@ public class Task {
 
     public static final String BASH = "bash";
 
-    public static final String IPYTHON = "ipython";
+    public static final String JUPYTER = "jupyter";
 
     public static final String PYTHON = "python";
 
     public static final String ZX = "zx";
+
+    static final String IPYTHON = "ipython";
 
     static final int CMD_LEN = 10000;
 
@@ -71,6 +73,10 @@ public class Task {
 
     public boolean isBash() {
         return BASH.equals(interpreter);
+    }
+
+    public boolean isJupyter() {
+        return JUPYTER.equals(interpreter);
     }
 
     public boolean isIpython() {

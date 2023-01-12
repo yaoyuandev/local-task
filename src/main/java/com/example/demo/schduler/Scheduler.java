@@ -3,9 +3,11 @@ package com.example.demo.schduler;
 import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +44,33 @@ public class Scheduler {
         if (task.isBash()) {
             runBashTask(task);
         }
+        if (task.isJupyter()) {
+            runJupyter(task);
+        }
         if (task.isIpython()) {
             runIpython(task);
         }
+    }
+
+    @SneakyThrows
+    void runIpython(Task task) {
+        task.setOutput("logs/" + task.getId() + "-" + task.getName() + ".log");
+        createLogfile(task);
+        val taskFileName = task.getId() + "-" + task.getName();
+        val filename = "tmp/" + taskFileName;
+        val pythonFile = new File(filename + ".py");
+        if (!pythonFile.getParentFile().isDirectory()) {
+            val ok = pythonFile.getParentFile().mkdirs();
+        }
+        FileCopyUtils.copy(task.getCmd().getBytes(), pythonFile);
+        val cmd =
+            "p2j " +
+            filename +
+            ".py && export PYTHONUNBUFFERED=1 && ipython " +
+            filename +
+            ".ipynb";
+        var pb = new ProcessBuilder("bash", "-c", cmd);
+        runProcess(task, pb, true);
     }
 
     File createLogfile(Task task) {
@@ -64,7 +90,7 @@ public class Scheduler {
     }
 
     @SneakyThrows
-    void runIpython(Task task) {
+    void runJupyter(Task task) {
         val taskFileName = task.getId() + "-" + task.getName();
         val pythonFile = new File("tmp/" + taskFileName + ".py");
         if (!pythonFile.getParentFile().isDirectory()) {
@@ -88,32 +114,26 @@ public class Scheduler {
 
     @SneakyThrows
     void runProcess(Task task, ProcessBuilder pb, boolean saveOutput) {
-        var p = pb.start();
+        log.info("pb = {}", pb.command());
+        val outputFile = new File(task.getOutput());
+        pb.redirectErrorStream(true);
+        pb.redirectOutput(outputFile);
+        val p = pb.start();
         val future = p.onExit();
         task.setPid("" + p.pid());
         service.update(task);
         val start = LocalDateTime.now();
-        p = future.get();
+        val p2 = future.get();
         task.setPid("");
         val end = LocalDateTime.now();
         task.setTime(Duration.between(start, end));
-        if (p.exitValue() == 0) {
-            if (saveOutput) {
-                try (
-                    val outputStream = new FileOutputStream(task.getOutput())
-                ) {
-                    FileCopyUtils.copy(p.getInputStream(), outputStream);
-                }
-            }
+        if (p2.exitValue() == 0) {
             task.setStatus(Task.COMPLETED);
         } else {
             if (service.isKilled(task.getId())) {
                 task.setStatus(Task.KILLED);
             } else {
                 task.setStatus(Task.FAILED);
-            }
-            try (val outputStream = new FileOutputStream(task.getOutput())) {
-                FileCopyUtils.copy(p.getErrorStream(), outputStream);
             }
         }
         service.update(task);
