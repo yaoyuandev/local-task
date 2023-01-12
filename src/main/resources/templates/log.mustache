@@ -9,15 +9,17 @@
     <link rel="stylesheet"
           href="/webjars/bootstrap/5.2.3/dist/css/bootstrap.min.css"
     />
-    <link
-            rel="stylesheet"
-            href="/webjars/bootstrap-icons/1.10.2/font/bootstrap-icons.css"
-    />
+    <link rel="stylesheet" href="/webjars/highlightjs/11.5.0/styles/default.min.css">
 </head>
 <body>
-<div style="margin-left: 2em">
-    <code hx-get="/api/logs?file={{file}}" hx-trigger="load, every 1s" style="white-space: pre-line;">
-    </code>
+<div>
+    <pre>
+        <code class="language-markdown" hx-get="/api/logs?file={{file}}" hx-trigger="load, every 1s">
+        </code>
+    </pre>
 </div>
+<script src="/webjars/bootstrap/5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/webjars/highlightjs/11.5.0/highlight.min.js"></script>
+<script src="/js/app-log.js"></script>
 </body>
 </html>

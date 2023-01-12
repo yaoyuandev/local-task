@@ -24,7 +24,7 @@
         <td>{{pid}}</td>
         <td>{{interpreter}}</td>
         <td>
-            <code id="task_{{id}}">{{cmd}}</code>
+            <pre><code id="task_{{id}}" class="language-python">{{cmd}}</code></pre>
             <button class="btn" data-clipboard-target="#task_{{id}}"><i class="bi bi-clipboard"></i></button></td>
         <td>
             <a href="/logs?file={{output}}" target="_blank">{{output}}</a>
