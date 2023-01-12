@@ -9,3 +9,10 @@ local task with gui
 ## Quick Start
 
 - `java -jar local-task-0.0.1.jar`
+
+## IPython
+
+```shell
+pip3 install p2j
+pip3 install jupyter
+```
