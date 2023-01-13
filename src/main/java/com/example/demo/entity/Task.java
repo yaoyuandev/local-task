@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,6 +45,19 @@ public class Task {
 
     static final int CMD_LEN = 10000;
 
+    static final Map<String, String> BADGE_MAP = Map.of(
+        CREATED,
+        "secondary",
+        RUNNING,
+        "primary",
+        COMPLETED,
+        "success",
+        FAILED,
+        "danger",
+        KILLED,
+        "warning"
+    );
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -70,6 +85,29 @@ public class Task {
     LocalDateTime updatedAt;
 
     Duration time;
+
+    LocalDateTime createdAtSecond() {
+        return createdAt.truncatedTo(ChronoUnit.SECONDS);
+    }
+
+    LocalDateTime updatedAtSecond() {
+        return updatedAt.truncatedTo(ChronoUnit.SECONDS);
+    }
+
+    String timeStr() {
+        return time.toString().substring(2);
+    }
+
+    String badge() {
+        return BADGE_MAP.get(status);
+    }
+
+    public String outputUrl() {
+        if (output.endsWith(".html")) {
+            return "/api/logs?file=" + output;
+        }
+        return "logs?file=" + output;
+    }
 
     public boolean isBash() {
         return BASH.equals(interpreter);

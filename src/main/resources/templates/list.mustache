@@ -6,6 +6,7 @@
         <th>pid</th>
         <th>interpreter</th>
         <th>cmd</th>
+        <th>copy</th>
         <th>output</th>
         <th>status</th>
         <th>time</th>
@@ -25,14 +26,17 @@
         <td>{{interpreter}}</td>
         <td>
             <pre><code id="task_{{id}}" class="language-python">{{cmd}}</code></pre>
-            <button class="btn" data-clipboard-target="#task_{{id}}"><i class="bi bi-clipboard"></i></button></td>
-        <td>
-            <a href="/logs?file={{output}}" target="_blank">{{output}}</a>
         </td>
-        <td>{{status}}</td>
-        <td>{{time}}</td>
-        <td>{{createdAt}}</td>
-        <td>{{updatedAt}}</td>
+        <td>
+            <button class="btn" data-clipboard-target="#task_{{id}}"><i class="bi bi-clipboard"></i></button>
+        </td>
+        <td>
+            <a href="{{outputUrl}}" target="_blank">{{output}}</a>
+        </td>
+        <td><span class="badge text-bg-{{badge}}">{{status}}</span></td>
+        <td>{{timeStr}}</td>
+        <td>{{createdAtSecond}}</td>
+        <td>{{updatedAtSecond}}</td>
         <td><button hx-delete="/tasks/{{id}}" hx-target="#list" type="button" class="btn btn-danger"><i class="bi bi-x-square"></i></button></td>
         <td><button hx-post="/tasks/{{id}}/retry" hx-target="#list" type="button" class="btn btn-primary"><i class="bi bi-repeat"></i></button></td>
         <td><button hx-post="/tasks/{{id}}/kill" hx-target="#list" type="button" class="btn btn-warning"><i class="bi bi-stop-circle-fill"></i></button></td>
