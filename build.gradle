@@ -37,6 +37,7 @@ dependencies {
     implementation 'org.webjars.npm:bootstrap-icons:1.10.2'
     implementation 'org.webjars:clipboard.js:2.0.6'
     implementation 'org.webjars.npm:codemirror:6.65.7'
+    implementation 'org.webjars:highlightjs:11.5.0'
     runtimeOnly 'com.h2database:h2'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
