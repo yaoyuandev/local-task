@@ -75,4 +75,8 @@ public record TaskService(TaskRepository repository) {
         }
         return taskOp.get().isKilled();
     }
+
+    public Task findById(Long id) {
+        return repository.findById(id).get();
+    }
 }

@@ -15,6 +15,7 @@
         <th>delete</th>
         <th>retry</th>
         <th>kill</th>
+        <th>clone</th>
     </tr>
     </thead>
     <tbody>
@@ -40,6 +41,7 @@
         <td><button hx-delete="/tasks/{{id}}" hx-target="#list" type="button" class="btn btn-danger" {{disabledDelete}}><i class="bi bi-x-square"></i></button></td>
         <td><button hx-post="/tasks/{{id}}/retry" hx-target="#list" type="button" class="btn btn-primary"><i class="bi bi-repeat"></i></button></td>
         <td><button hx-post="/tasks/{{id}}/kill" hx-target="#list" type="button" class="btn btn-warning"><i class="bi bi-stop-circle-fill"></i></button></td>
+        <td><button hx-post="/tasks/{{id}}/clone" hx-target="#cmd" type="button" class="btn btn-info"><i class="bi bi-file-arrow-up"></i></button></td>
     </tr>
     {{/tasks}}
 </table>

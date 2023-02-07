@@ -16,8 +16,12 @@
       <link rel="stylesheet" href="/webjars/highlightjs/11.5.0/styles/default.min.css">
   </head>
   <body>
-    <div hx-get="/templates/nav" hx-trigger="load"></div>
-    <div hx-get="/templates/form" hx-trigger="load"></div>
+    <div>
+        {{>nav}}
+    </div>
+    <div>
+        {{>form}}
+    </div>
     <div id="list" hx-get="/tasks" hx-trigger="load, every 1s"></div>
     <script src="/webjars/bootstrap/5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/webjars/clipboard.js/2.0.6/clipboard.min.js"></script>
