@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.CreateTaskRequest;
 import com.example.demo.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.math.raw.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,12 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @Slf4j
 public record IndexController(TaskService service) {
     @GetMapping("")
-    String index() {
+    String index(Model model) {
         return "index";
     }
     @PostMapping("/run")
@@ -46,5 +48,11 @@ public record IndexController(TaskService service) {
     String kill(@PathVariable Long id, Model model) {
         service.kill(id);
         return list(model);
+    }
+
+    @ResponseBody
+    @PostMapping("/tasks/{id}/clone")
+    String clone(@PathVariable Long id) {
+        return service.findById(id).getCmd();
     }
 }
