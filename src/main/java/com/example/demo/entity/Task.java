@@ -120,4 +120,11 @@ public class Task {
     public boolean isIpython() {
         return IPYTHON.equals(interpreter);
     }
+
+    public String disabledDelete() {
+        if (Task.RUNNING.equals(status)) {
+            return "disabled";
+        }
+        return "";
+    }
 }
