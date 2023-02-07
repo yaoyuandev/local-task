@@ -37,7 +37,7 @@
         <td>{{timeStr}}</td>
         <td>{{createdAtSecond}}</td>
         <td>{{updatedAtSecond}}</td>
-        <td><button hx-delete="/tasks/{{id}}" hx-target="#list" type="button" class="btn btn-danger"><i class="bi bi-x-square"></i></button></td>
+        <td><button hx-delete="/tasks/{{id}}" hx-target="#list" type="button" class="btn btn-danger" {{disabledDelete}}><i class="bi bi-x-square"></i></button></td>
         <td><button hx-post="/tasks/{{id}}/retry" hx-target="#list" type="button" class="btn btn-primary"><i class="bi bi-repeat"></i></button></td>
         <td><button hx-post="/tasks/{{id}}/kill" hx-target="#list" type="button" class="btn btn-warning"><i class="bi bi-stop-circle-fill"></i></button></td>
     </tr>
