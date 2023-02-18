@@ -119,10 +119,11 @@ public class Scheduler {
         pb.redirectErrorStream(true);
         pb.redirectOutput(outputFile);
         val p = pb.start();
-        val future = p.onExit();
         task.setPid("" + p.pid());
-        service.update(task);
         val start = LocalDateTime.now();
+        task.setCreatedAt(start);
+        service.update(task);
+        val future = p.onExit();
         val p2 = future.get();
         task.setPid("");
         val end = LocalDateTime.now();

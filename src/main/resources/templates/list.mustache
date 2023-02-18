@@ -9,12 +9,10 @@
         <th>copy</th>
         <th>output</th>
         <th>status</th>
-        <th>time</th>
-        <th>createdAt</th>
-        <th>updatedAt</th>
+        <th>duration</th>
+        <th>startedAt</th>
         <th>delete</th>
         <th>retry</th>
-        <th>kill</th>
         <th>clone</th>
     </tr>
     </thead>
@@ -24,9 +22,9 @@
         <td>{{id}}</td>
         <td>{{name}}</td>
         <td>{{pid}}</td>
-        <td>{{interpreter}}</td>
+        <td id="task_interpreter_{{id}}">{{interpreter}}</td>
         <td>
-            <pre><code id="task_{{id}}" class="language-python">{{cmd}}</code></pre>
+            <pre><code id="task_{{id}}" class="language-python" style="white-space: pre-wrap;word-break:break-word;">{{cmd}}</code></pre>
         </td>
         <td>
             <button class="btn" data-clipboard-target="#task_{{id}}"><i class="bi bi-clipboard"></i></button>
@@ -36,12 +34,14 @@
         </td>
         <td><span class="badge text-bg-{{badge}}">{{status}}</span></td>
         <td>{{timeStr}}</td>
-        <td>{{createdAtSecond}}</td>
-        <td>{{updatedAtSecond}}</td>
-        <td><button hx-delete="/tasks/{{id}}" hx-target="#list" type="button" class="btn btn-danger" {{disabledDelete}}><i class="bi bi-x-square"></i></button></td>
+        <td>{{createdAtSecondStr}}</td>
+        <td>
+            <button hx-post="/tasks/{{id}}/cancel" hx-target="#list" type="button" class="{{cancelButtonClass}}"><i class="bi bi-c-circle"></i></button>
+            <button hx-post="/tasks/{{id}}/kill" hx-target="#list" type="button" class="{{killButtonClass}}"><i class="bi bi-stop-circle-fill"></i></button>
+            <button hx-delete="/tasks/{{id}}" hx-target="#list" type="button" class="btn btn-danger" {{disabledDelete}}><i class="bi bi-x-square"></i></button>
+        </td>
         <td><button hx-post="/tasks/{{id}}/retry" hx-target="#list" type="button" class="btn btn-primary"><i class="bi bi-repeat"></i></button></td>
-        <td><button hx-post="/tasks/{{id}}/kill" hx-target="#list" type="button" class="btn btn-warning"><i class="bi bi-stop-circle-fill"></i></button></td>
-        <td><button hx-post="/tasks/{{id}}/clone" hx-target="#cmd" type="button" class="btn btn-info"><i class="bi bi-file-arrow-up"></i></button></td>
+        <td><button onclick="clone({{id}})" type="button" class="btn btn-info"><i class="bi bi-file-arrow-up"></i></button></td>
     </tr>
     {{/tasks}}
 </table>

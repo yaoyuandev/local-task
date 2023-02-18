@@ -55,4 +55,11 @@ public record IndexController(TaskService service) {
     String clone(@PathVariable Long id) {
         return service.findById(id).getCmd();
     }
+
+    @PostMapping("/tasks/{id}/cancel")
+    String cancel(@PathVariable Long id, Model model) {
+        log.info("call cancel id = {}", id);
+        service.cancel(id);
+        return list(model);
+    }
 }

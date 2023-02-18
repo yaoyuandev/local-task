@@ -37,13 +37,10 @@ public record TaskService(TaskRepository repository) {
 
     public void retry(Long id) {
         val taskOp = repository.findById(id);
-        if (!taskOp.isPresent()) {
+        if (taskOp.isEmpty()) {
             return;
         }
         val task = taskOp.get();
-        if (!Task.COMPLETED.equals(task.getStatus())) {
-            task.setStatus(Task.FAILED);
-        }
         update(task);
         val createTaskRequest = new CreateTaskRequest(
             task.getName(),
@@ -78,5 +75,14 @@ public record TaskService(TaskRepository repository) {
 
     public Task findById(Long id) {
         return repository.findById(id).get();
+    }
+
+    public void cancel(Long id) {
+        repository
+            .findById(id)
+            .ifPresent(it -> {
+                it.setStatus(Task.CANCELED);
+                repository.save(it);
+            });
     }
 }
