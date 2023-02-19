@@ -24,7 +24,7 @@
         <td>{{pid}}</td>
         <td id="task_interpreter_{{id}}">{{interpreter}}</td>
         <td>
-            <pre><code id="task_{{id}}" class="language-python" style="white-space: pre-wrap;word-break:break-word;">{{cmd}}</code></pre>
+            <pre><code id="task_{{id}}" class="language-python" style="white-space: pre-wrap;word-break:break-word; min-width: {{minWidth}}em">{{cmd}}</code></pre>
         </td>
         <td>
             <button class="btn" data-clipboard-target="#task_{{id}}"><i class="bi bi-clipboard"></i></button>
