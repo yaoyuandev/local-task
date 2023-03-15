@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.val;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
@@ -33,6 +33,10 @@ public class Task {
     public static final String FAILED = "failed";
     public static final String KILLED = "killed";
 
+    public static final String CANCELED = "canceled";
+
+    public static final String RETRIED = "retried";
+
     public static final String BASH = "bash";
 
     public static final String JUPYTER = "jupyter";
@@ -45,6 +49,8 @@ public class Task {
 
     static final int CMD_LEN = 10000;
 
+    static final String CSS_WARNING = "warning";
+
     static final Map<String, String> BADGE_MAP = Map.of(
         CREATED,
         "secondary",
@@ -55,8 +61,15 @@ public class Task {
         FAILED,
         "danger",
         KILLED,
+        CSS_WARNING,
+        CANCELED,
+        CSS_WARNING,
+        RETRIED,
         "warning"
     );
+
+    static final String CSS_NONE = "d-none";
+    static final String CSS_BUTTON_WARNING = "btn btn-warning";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,7 +91,6 @@ public class Task {
 
     boolean killed;
 
-    @CreationTimestamp
     LocalDateTime createdAt;
 
     @UpdateTimestamp
@@ -87,15 +99,33 @@ public class Task {
     Duration time;
 
     LocalDateTime createdAtSecond() {
+        if (createdAt == null) {
+            return null;
+        }
         return createdAt.truncatedTo(ChronoUnit.SECONDS);
+    }
+
+    String createdAtSecondStr() {
+        val createAtSecond = createdAtSecond();
+        if (createAtSecond == null) {
+            return "";
+        }
+        return createAtSecond.toString();
     }
 
     LocalDateTime updatedAtSecond() {
         return updatedAt.truncatedTo(ChronoUnit.SECONDS);
     }
 
+    Duration newTime() {
+        if (isRunning() && time.isZero()) {
+            return Duration.between(createdAt, LocalDateTime.now());
+        }
+        return time;
+    }
+
     String timeStr() {
-        return time.toString().substring(2);
+        return newTime().toString().substring(2);
     }
 
     String badge() {
@@ -126,5 +156,27 @@ public class Task {
             return "disabled";
         }
         return "";
+    }
+
+    boolean isRunning() {
+        return RUNNING.equals(status);
+    }
+
+    String killButtonClass() {
+        if (!isRunning()) {
+            return CSS_NONE;
+        }
+        return CSS_BUTTON_WARNING;
+    }
+
+    boolean isCreated() {
+        return CREATED.equals(status);
+    }
+
+    String cancelButtonClass() {
+        if (isCreated()) {
+            return CSS_BUTTON_WARNING;
+        }
+        return CSS_NONE;
     }
 }
