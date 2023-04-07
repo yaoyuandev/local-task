@@ -30,7 +30,6 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.1.5'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-mustache'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.webjars.npm:htmx.org:1.8.4'
     implementation 'org.webjars.npm:bootstrap:5.2.3'

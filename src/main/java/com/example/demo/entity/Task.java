@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -105,6 +106,7 @@ public class Task {
         return createdAt.truncatedTo(ChronoUnit.SECONDS);
     }
 
+    @JsonProperty("startedAt")
     String createdAtSecondStr() {
         val createAtSecond = createdAtSecond();
         if (createAtSecond == null) {
@@ -124,19 +126,22 @@ public class Task {
         return time;
     }
 
+    @JsonProperty("duration")
     String timeStr() {
         return newTime().toString().substring(2);
     }
 
+    @JsonProperty
     String badge() {
         return BADGE_MAP.get(status);
     }
 
+    @JsonProperty
     public String outputUrl() {
         if (output.endsWith(".html")) {
             return "/api/logs?file=" + output;
         }
-        return "logs?file=" + output;
+        return "/#/logs?file=" + output;
     }
 
     public boolean isBash() {
@@ -158,6 +163,7 @@ public class Task {
         return "";
     }
 
+    @JsonProperty("isRunning")
     boolean isRunning() {
         return RUNNING.equals(status);
     }
@@ -169,6 +175,7 @@ public class Task {
         return CSS_BUTTON_WARNING;
     }
 
+    @JsonProperty
     boolean isCreated() {
         return CREATED.equals(status);
     }

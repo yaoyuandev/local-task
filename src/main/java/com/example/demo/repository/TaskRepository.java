@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
+    List<Task> findByCmdContainsIgnoreCase(String cmd);
+
     @Transactional
     @Modifying
     @Query("update Task t set t.status = ?1, t.killed = ?2 where t.status = ?3")

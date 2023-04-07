@@ -85,4 +85,8 @@ public record TaskService(TaskRepository repository) {
                 repository.save(it);
             });
     }
+
+    public Tasks search(String q) {
+        return new Tasks(repository.findByCmdContainsIgnoreCase(q));
+    }
 }
